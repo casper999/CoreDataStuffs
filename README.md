@@ -1,0 +1,2 @@
+# CDStuffs
+Core Data FetchedResultController 
