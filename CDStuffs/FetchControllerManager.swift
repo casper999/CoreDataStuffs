@@ -22,6 +22,8 @@ class FetchControllerManager: NSObject, NSFetchedResultsControllerDelegate {
     
     var predicate : NSPredicate?
     
+    var blockOperation : NSBlockOperation?
+
     
     
     lazy var managedObjectContext: NSManagedObjectContext = {

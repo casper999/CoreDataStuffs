@@ -13,7 +13,9 @@ import UIKit
     func didDeselectRow(item : AnyObject) -> Void
     func commitEditingStyle(editingStyle : UITableViewCellEditingStyle, indexPath: NSIndexPath)
 }
-
+//@objc protocol ScrollDelegate {
+//    optional func scrollViewDidScroll(scrollView: UIScrollView)
+//}
 
 class TableViewControllerManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     var tableView : UITableView!
@@ -22,6 +24,8 @@ class TableViewControllerManager: NSObject, UITableViewDelegate, UITableViewData
     var cellIdentifier : String!
     
     var delegate : TableViewDelegate?
+    var scrollDelegate : ScrollDelegate?
+    
     
     var rowHeight : NSNumber?
     
@@ -83,6 +87,10 @@ class TableViewControllerManager: NSObject, UITableViewDelegate, UITableViewData
         delegate?.didDeselectRow(item)
     }
     
-    
-    
+    //MARK : -
+    //MARK : ScrollView Delegete
+    //MARK : -
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.scrollDelegate?.scrollViewDidScroll!(scrollView)
+    }
 }

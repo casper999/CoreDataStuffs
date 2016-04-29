@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainAdapter: NSObject, TableViewDelegate {
+class MainAdapter: NSObject, TableViewDelegate, UIScrollViewDelegate, ScrollDelegate {
     var tableView : UITableView!
     var tableController : TableViewControllerManager!
     var fetchController : FetchControllerManager!
@@ -16,20 +16,7 @@ class MainAdapter: NSObject, TableViewDelegate {
     //MARK: Initzialize
     //MARK: -
     func initzialize() {
-//        //FetchControllerManager init
-//        fetchController = FetchControllerManager()
-//        fetchController.tableView = tableView
-//        fetchController.entityName = "Task"
-//        
-//        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-//        fetchController.sortDescriptors = [sortDescriptor]
-//        //TableViewControllerManager init
-//        tableController = TableViewControllerManager()
-//        tableController.tableView = tableView
-//        tableController.fetchController = fetchController
-//        //
-//        tableController.initzialize()
-        
+        tableController.scrollDelegate = self
     }
     //MARK: -
     //MARK: TableViewDelegate
@@ -47,5 +34,23 @@ class MainAdapter: NSObject, TableViewDelegate {
         
     }
     
-    
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        
+    }
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
+        {
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                // do some task
+                dispatch_async(dispatch_get_main_queue()) {
+                    // update some UI
+                    let manager : RandomManager = RandomManager()
+                    let str : String = "Pussy "
+                    manager.addIndexedRandomData(str)
+                }
+            }
+            
+        }
+    }
 }

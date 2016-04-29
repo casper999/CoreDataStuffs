@@ -13,8 +13,10 @@ import UIKit
     func didDeselectItem(item : AnyObject) -> Void
 
 }
-
-class CollectionViewControllerManager: NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
+//@objc protocol ScrollDelegate {
+//    optional func scrollViewDidScroll(scrollView: UIScrollView)
+//}
+class CollectionViewControllerManager: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
     var collectionView : UICollectionView!
     
     var fetchController : CollectionFetchControllerManager!
@@ -22,7 +24,7 @@ class CollectionViewControllerManager: NSObject, UICollectionViewDelegate, UICol
     var cellIdentifier : String!
     
     var delegate : CollectionViewDelegate?
-    
+    var scrollDelegate : ScrollDelegate?
     
     func initzialize() {
         self.collectionView.delegate = self
@@ -60,6 +62,13 @@ class CollectionViewControllerManager: NSObject, UICollectionViewDelegate, UICol
         delegate?.configureCell(cell, item: item)
         return cell;
         
+    }
+    
+    //MARK : -
+    //MARK : ScrollView Delegete
+    //MARK : -
+    @objc func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.scrollDelegate?.scrollViewDidScroll!(scrollView)
     }
     
     

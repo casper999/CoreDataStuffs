@@ -52,8 +52,24 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addRandomData(sender: AnyObject) {
-        let manager : RandomManager = RandomManager()
-        manager.addRandomData()
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            // do some task
+            dispatch_async(dispatch_get_main_queue()) {
+                // update some UI
+                let manager : RandomManager = RandomManager()
+                let str : String = "Pussy "
+                manager.addIndexedRandomData(str)
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
     }
 }
 

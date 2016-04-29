@@ -10,7 +10,7 @@ import UIKit
 
 class ModelCollectionViewController: UIViewController {
 
-    @IBOutlet weak var collectionView: UICollectionView!
+    var collectionView: UICollectionView!
     var adapter : ModelCollectionAdapter!
 
     override func viewDidLoad() {

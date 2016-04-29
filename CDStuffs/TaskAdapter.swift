@@ -25,7 +25,9 @@ class TaskAdapter: MainAdapter {
         tableController.delegate = self
         tableController.cellIdentifier = "tableCell"
         //
+        super.initzialize()
         tableController.initzialize()
+        
     }
     //MARK: -
     //MARK: TableViewDelegate

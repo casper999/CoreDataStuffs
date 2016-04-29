@@ -10,25 +10,29 @@ import UIKit
 import CoreData
 class RandomManager: BackgroundContext {
     
+    var data : NSMutableArray = NSMutableArray();
+    var timer : NSTimer?
     
+    var randomString : String?
     
     func addRandomData() {
-        self.privateContext.performBlock { 
+        self.privateContext.performBlock({
             self.prepareData()
-            self.save()
-        }
-        print("add random data")
+        })
     }
     
+    func addIndexedRandomData(str : String?) {
+        self.privateContext.performBlock { 
+            self.randomString = str;
+            self.prepareData()
+        }
+    }
     
     private func prepareData() {
-        for index in 0...1000 {
-            let str : String = "Random data \(index)"
-//            data.addObject(str)
-            print("index: \(index)")
+        for index in 0...10 {
+            let str : String = "\(self.randomString) Random Task \(index)"
             self.insertData(str)
         }
-        
     }
     
     private func insertData(str : String) {
@@ -36,8 +40,9 @@ class RandomManager: BackgroundContext {
                 inManagedObjectContext: self.privateContext)
             let person = NSManagedObject(entity: entity!,
                 insertIntoManagedObjectContext: self.privateContext) as! Task
-//            person.setValue(str, forKey: "name")
             person.name = str
+            self.save()
+
         
     }
     

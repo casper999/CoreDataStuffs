@@ -23,7 +23,7 @@ class TaskManager: BackgroundContext {
             self.save();
             print("block save");
         }
-        print("not perform block")
+//        print("not perform block")
         
         
     }

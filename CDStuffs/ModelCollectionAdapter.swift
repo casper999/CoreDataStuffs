@@ -8,18 +8,16 @@
 
 import UIKit
 
-class ModelCollectionAdapter: NSObject, CollectionViewDelegate {
-    var collectionView : UICollectionView!
+class ModelCollectionAdapter: MainCollectionAdapter {
+//    var collectionView : UICollectionView!
     
-    var collectionController : CollectionViewControllerManager!
-    var fetchController : CollectionFetchControllerManager!
+//    var collectionController : CollectionViewControllerManager!
+//    var fetchController : CollectionFetchControllerManager!
     
-    func initzialize() {
+    override func initzialize() {
         
 //        tableView.registerNib(UINib(nibName: "ModelCell", bundle: nil), forCellReuseIdentifier: "modelCell")
         self.collectionView.registerNib(UINib(nibName:"ModelCollectionCell", bundle: nil ), forCellWithReuseIdentifier: "modelCollCell")
-        
-        
         fetchController = CollectionFetchControllerManager()
         fetchController.collectionView = collectionView
         fetchController.entityName = "Model"
@@ -30,21 +28,37 @@ class ModelCollectionAdapter: NSObject, CollectionViewDelegate {
         collectionController.fetchController = fetchController
         collectionController.cellIdentifier = "modelCollCell"
         collectionController.delegate = self
+        super.initzialize()
         collectionController .initzialize()
         
     }
     
-    func configureCell(cell: UICollectionViewCell, item: AnyObject) {
+    override func configureCell(cell: UICollectionViewCell, item: AnyObject) {
         let modelCell : ModelCollectionCell = cell as! ModelCollectionCell
         let model : Model = item as! Model
         modelCell.cofigureCell(model)
     }
     
-    func didSelectItem(item: AnyObject) {
+    override func didSelectItem(item: AnyObject) {
         
     }
-    func didDeselectItem(item: AnyObject) {
+    override func didDeselectItem(item: AnyObject) {
         
+    }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
+        {
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                // do some task
+                dispatch_async(dispatch_get_main_queue()) {
+                    let manager = ModelManager()
+                    manager.addModel()
+                }
+            }
+            
+        }
     }
     
     

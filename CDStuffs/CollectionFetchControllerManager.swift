@@ -12,7 +12,7 @@ import CoreData
 class CollectionFetchControllerManager: FetchControllerManager {
     var collectionView : UICollectionView!
     
-    var blockOperation : NSBlockOperation?
+//    var blockOperation : NSBlockOperation?
     
     var shouldReloadCollectionView : Bool? = false
     

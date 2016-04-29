@@ -18,7 +18,6 @@ class BackgroundContext: NSObject {
     
     lazy var privateContext : NSManagedObjectContext = {
         var ctx : NSManagedObjectContext = NSManagedObjectContext.init(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
-//        context.persistentStoreCoordinator = self.context.persistentStoreCoordinator
         ctx.parentContext = self.context
         return ctx
         
@@ -28,22 +27,24 @@ class BackgroundContext: NSObject {
         return self.context.persistentStoreCoordinator!
     }()
     
+    override init() {
+        super.init()
+    }
     
     func save() {
         do {
             try privateContext.save()
-            
-            print("save private data")
-            do {
-                try context.save()
-                print("save context")
-            } catch let error as NSError {
-                print("Could not save context \(error), \(error.userInfo)")
-            }
-            
-            
+            self.context.performBlock({
+                do {
+                    try self.context.save()
+                    print("save main context")
+                } catch let error as NSError {
+                    print("Could not save context \(error), \(error.userInfo)")
+
+                }
+            })
         } catch let error as NSError  {
             print("Could not save private \(error), \(error.userInfo)")
         }
-    }    
+    }
 }
