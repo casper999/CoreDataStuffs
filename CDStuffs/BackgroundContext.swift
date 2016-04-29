@@ -9,7 +9,8 @@
 import UIKit
 import CoreData
 class BackgroundContext: NSObject {
-    
+    let notificationCenter : NSNotificationCenter = NSNotificationCenter.defaultCenter()
+
     lazy var context : NSManagedObjectContext = {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         var managedObjectContext = appDelegate.managedObjectContext
@@ -29,6 +30,7 @@ class BackgroundContext: NSObject {
     
     override init() {
         super.init()
+//        self.notificationCenter.addObserver(self, selector: #selector(privateContextDidSave), name: NSManagedObjectContextDidSaveNotification, object: nil)
     }
     
     func save() {
@@ -47,4 +49,11 @@ class BackgroundContext: NSObject {
             print("Could not save private \(error), \(error.userInfo)")
         }
     }
+    @objc func managedObjectContextDidSave(nofification : NSNotification) {
+        //        print("testing stacksave")
+//            [[[self fetchedResultsController] managedObjectContext] mergeChangesFromContextDidSaveNotification:notif];
+        
+    }
+
+    
 }

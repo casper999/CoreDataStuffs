@@ -42,8 +42,11 @@ class ModelManager: BackgroundContext {
     }
     
     func deleteData(item : Model) {
-        self.context.deleteObject(item)
-        self.save()
+        self.context.performBlock { 
+            self.context.deleteObject(item)
+            self.save()
+        }
+        
     }
     
     

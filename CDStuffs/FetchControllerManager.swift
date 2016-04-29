@@ -23,6 +23,8 @@ class FetchControllerManager: NSObject, NSFetchedResultsControllerDelegate {
     var predicate : NSPredicate?
     
     var blockOperation : NSBlockOperation?
+    
+    let notificationCenter : NSNotificationCenter = NSNotificationCenter.defaultCenter()
 
     
     
@@ -49,7 +51,7 @@ class FetchControllerManager: NSObject, NSFetchedResultsControllerDelegate {
     }()
     
     func initzialize() {
-        
+        self.notificationCenter.addObserver(self, selector: #selector(managedObjectContextDidSave), name: NSManagedObjectContextDidSaveNotification, object: nil)
         do {
             try self.fetchedResultsController.performFetch()
         } catch {
@@ -90,6 +92,29 @@ class FetchControllerManager: NSObject, NSFetchedResultsControllerDelegate {
         
     }
     
-    
+    @objc func managedObjectContextDidSave(notification : NSNotification) {
+//
+        let savedContext : NSManagedObjectContext = notification.object as! NSManagedObjectContext
+        let mainContext : NSManagedObjectContext = self.fetchedResultsController.managedObjectContext
+        
+        let isSelfSave : Bool = (savedContext == mainContext)
+        let isSamePersistentStore = (savedContext.persistentStoreCoordinator == mainContext.persistentStoreCoordinator)
+        
+        
+        if (isSelfSave || !isSamePersistentStore) {
+            return;
+        }
+//        mainContext .mergeChangesFromContextDidSaveNotification(notification)
+        if let unsafeManageObjects = notification.userInfo?[NSDeletedObjectsKey] as? NSSet {
+            for _object in unsafeManageObjects {
+                let object = _object as! NSManagedObject
+                mainContext.refreshObject(object, mergeChanges: true)
+                self.fetchedResultsController.managedObjectContext.objectWithID(object.objectID)
+            }
+            self.fetchedResultsController.managedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
+
+        }
+        
+    }
     
 }

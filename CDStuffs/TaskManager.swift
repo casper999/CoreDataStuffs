@@ -17,66 +17,54 @@ class TaskManager: BackgroundContext {
                 inManagedObjectContext: self.privateContext)
             let person = NSManagedObject(entity: entity!,
                 insertIntoManagedObjectContext: self.privateContext) as! Task
-//            person.setValue(str, forKey: "name")
             person.name = str
-            
             self.save();
             print("block save");
         }
-//        print("not perform block")
-        
-        
     }
     
     func deleteData(item : Task) {
-        self.context.deleteObject(item)
-        self.save()
+        self.privateContext.performBlock {
+            self.context.deleteObject(item)
+            self.save()
+        }
     }
     func deleteAllData() {
-        let fetchRequest = NSFetchRequest(entityName: "Task")
-        // Initialize Batch Delete Request
-        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        // Configure Batch Update Request
-        batchDeleteRequest.resultType = .ResultTypeCount
-        do {
-            // Execute Batch Request
-            let batchDeleteResult = try context.executeRequest(batchDeleteRequest) as! NSBatchDeleteResult
-            
-            print("The batch delete request has deleted \(batchDeleteResult.result!) records.")
-            
-            // Reset Managed Object Context
-            context.reset()
-            let notification = NSNotification(name: "reloadTableView", object: nil, userInfo: nil)
-            NSNotificationCenter.defaultCenter().postNotification(notification)
-        } catch {
-            let updateError = error as NSError
-            print("\(updateError), \(updateError.userInfo)")
+        self.privateContext.performBlock {
+            let fetchRequest = NSFetchRequest(entityName: "Task")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            deleteRequest.resultType = .ResultTypeCount
+
+            do {
+                let batchDeleteResult =  try self.context.persistentStoreCoordinator!.executeRequest(deleteRequest, withContext: self.context)
+                print("The batch delete request has deleted \(batchDeleteResult.result!) records.")
+            } catch let error as NSError {
+                // TODO: handle the error
+                print("Could not save private \(error), \(error.userInfo)")
+
+            }
         }
-        
-            
     }
     
-    private func removeAllData() {
-        let entity =  NSEntityDescription.entityForName("Task",
-                                                        inManagedObjectContext: self.privateContext)
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = entity
-        fetchRequest.fetchBatchSize = 50
-//        let fetchResults = self.privateContext.executeFetchRequest(fetchRequest, error: &error)
-//        if error.memory != nil {
-//            return
-//        }
-        do {
-            let fetchResults = try self.privateContext.executeFetchRequest(fetchRequest)
-            if let managedObjects = fetchResults as? [NSManagedObject] {
-                for object in managedObjects {
-                    self.privateContext.deleteObject(object)
+    func removeAllData() {
+        self.privateContext.performBlock {
+            let entity =  NSEntityDescription.entityForName("Task",
+                inManagedObjectContext: self.context)
+            let fetchRequest = NSFetchRequest()
+            fetchRequest.entity = entity
+//            fetchRequest.fetchBatchSize = 50
+            do {
+                let fetchResults = try self.context.executeFetchRequest(fetchRequest)
+                if let managedObjects = fetchResults as? [NSManagedObject] {
+                    for object in managedObjects {
+                        self.context.deleteObject(object)
+                        
+                    }
                 }
-                self.save()
+            } catch let error as NSError {
+                print("Could not save private \(error), \(error.userInfo)")
             }
-            
-        } catch let error as NSError {
-            print("Could not save private \(error), \(error.userInfo)")
         }
+        
     }
 }

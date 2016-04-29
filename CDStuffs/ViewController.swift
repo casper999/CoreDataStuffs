@@ -20,18 +20,9 @@ class ViewController: UIViewController {
         taskAdapter.tableView = tableView
         taskAdapter.initzialize()
         // Do any additional setup after loading the view, typically from a nib.
-        testApi()
     }
     
-    func testApi() {
-//        let api : ApiHandler = ApiHandler()
-//        api.testDownload()
-        
-        let pussy : Pussy = Pussy()
-        let string : String = pussy.getPussy()
-        print("obj c ->" + string)
-        
-    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -39,8 +30,6 @@ class ViewController: UIViewController {
     }
 
     @IBAction func addData(sender: AnyObject) {
-        
-        
         let str = textField.text
         let manager : TaskManager = TaskManager()
         manager.addData(str!)
@@ -48,7 +37,8 @@ class ViewController: UIViewController {
     }
     @IBAction func resetData(sender: AnyObject) {
         let manager : TaskManager = TaskManager()
-        manager.deleteAllData()
+//        manager.deleteAllData()
+        manager.removeAllData()
     }
     
     @IBAction func addRandomData(sender: AnyObject) {
