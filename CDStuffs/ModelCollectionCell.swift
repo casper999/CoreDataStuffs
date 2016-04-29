@@ -23,14 +23,23 @@ class ModelCollectionCell: UICollectionViewCell {
         self.model = item;
         self.imageView.image = nil
         self.textLabel.text = nil
-        self.textLabel?.text = self.model?.name!
+        self.textLabel?.text = self.model?.rating?.stringValue
         if (model?.image != nil) {
-            let image = UIImage(data: model?.image as! NSData)
-            self.imageView?.image = image
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                // do some task
+                let image = UIImage(data: self.model?.image as! NSData)
+                //
+                dispatch_async(dispatch_get_main_queue(), {
+                    // update some UI
+                    self.imageView?.image = image
+                });
+            });
+            
+            
         } else {
             self.downloadImage()
         }
-        print("name -> \(model?.name)")
+//        print("name -> \(model?.name)")
         drawDesing()
 
     }
@@ -62,6 +71,7 @@ class ModelCollectionCell: UICollectionViewCell {
             }
             else {
                 print("Error: \(error!.localizedDescription)")
+                print("Error url: \(self.model?.imageURL)")
             }
         })
         

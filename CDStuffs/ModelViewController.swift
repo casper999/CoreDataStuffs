@@ -11,17 +11,20 @@ import UIKit
 class ModelViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    var adapter : ModelAdapter!
+    let adapter : ModelAdapter = ModelAdapter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        adapter = ModelAdapter()
-        adapter.tableView = tableView
-        adapter.initzialize()
-
-        // Do any additional setup after loading the view.
-//        let manager = ModelManager()
-//        manager.addModel()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            // do some task
+            //
+            self.adapter.tableView = self.tableView
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                // update some UI
+                self.adapter.initzialize()
+            });
+        });
     }
     
     override func viewWillAppear(animated: Bool) {

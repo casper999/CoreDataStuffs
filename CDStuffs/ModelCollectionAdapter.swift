@@ -21,7 +21,10 @@ class ModelCollectionAdapter: MainCollectionAdapter {
         fetchController = CollectionFetchControllerManager()
         fetchController.collectionView = collectionView
         fetchController.entityName = "Model"
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "rating", ascending: false)
+        let predicate = NSPredicate(format: "rating >= 5")
+        fetchController.predicate = predicate
+        
         fetchController.sortDescriptors = [sortDescriptor]
         collectionController = CollectionViewControllerManager()
         collectionController.collectionView = collectionView
@@ -29,7 +32,7 @@ class ModelCollectionAdapter: MainCollectionAdapter {
         collectionController.cellIdentifier = "modelCollCell"
         collectionController.delegate = self
         super.initzialize()
-        collectionController .initzialize()
+        collectionController.initzialize()
         
     }
     

@@ -14,7 +14,16 @@ class ModelManager: BackgroundContext {
     var data : NSMutableArray?
     
     var models : NSArray = ["Rachel", "Stephanie", "Sarah", "Josephine", "Alex", "Jessica", "Rhonda", "Alice", "Sam", "Victoria"]
-    var images : NSArray = ["http://2.bp.blogspot.com/-01HgZRiT_1g/UeRfeduSFkI/AAAAAAAAB3M/Iw1nUKY2f6I/s1600/New+beautiful+25+pictures+of+the+world%2527s+most+beautiful+girls++%25E2%2580%25AB%25281%2529%25E2%2580%25AC+%25E2%2580%25AB%25E2%2580%25AC.jpg", "http://up.n4hr.com/uploads/1412654481052.png", "girls-wallpaper-wonderful-images.jpg", "0245380e1552c1b4f56f01345005f44a.jpg", "http://photos.motogp.com/2014/09/28/paddock-girls__gp_3472_crop_crop_4_3_1424954011.photos_4_3_cropped_bigger.jpg", "http://www.braindirector.com/wp-content/uploads/2015/10/understanding-female-attraction.jpg", "https://pixabay.com/static/uploads/photo/2015/09/04/19/51/girl-922621_960_720.jpg", "http://cdn2.cagepotato.com/wp-content/uploads/2014/08/jennifer-nguyen-photos-sexy-ufc-ring-girl-01.jpg", "http://www.vectraline.hu/FALINAPTAR_HOT_GIRLS-i150812.jpg", "http://www.vectraline.hu/FALINAPTAR_HOT_GIRLS-i150788.jpg"]
+    var images : NSArray = ["http://2.bp.blogspot.com/-01HgZRiT_1g/UeRfeduSFkI/AAAAAAAAB3M/Iw1nUKY2f6I/s1600/New+beautiful+25+pictures+of+the+world%2527s+most+beautiful+girls++%25E2%2580%25AB%25281%2529%25E2%2580%25AC+%25E2%2580%25AB%25E2%2580%25AC.jpg",
+                            "http://up.n4hr.com/uploads/1412654481052.png",
+                            "https://pbs.twimg.com/profile_images/662586729317036032/GzPCSAty.jpg",
+                            "https://pbs.twimg.com/profile_images/484177494317088770/qd0Ao9iZ.jpeg",
+                            "http://photos.motogp.com/2014/09/28/paddock-girls__gp_3472_crop_crop_4_3_1424954011.photos_4_3_cropped_bigger.jpg",
+                            "http://www.braindirector.com/wp-content/uploads/2015/10/understanding-female-attraction.jpg",
+                            "https://pixabay.com/static/uploads/photo/2015/09/04/19/51/girl-922621_960_720.jpg",
+                            "http://cdn2.cagepotato.com/wp-content/uploads/2014/08/jennifer-nguyen-photos-sexy-ufc-ring-girl-01.jpg",
+                            "http://www.vectraline.hu/FALINAPTAR_HOT_GIRLS-i150812.jpg",
+                            "http://www.vectraline.hu/FALINAPTAR_HOT_GIRLS-i150788.jpg"]
     
     
     func addModel() {

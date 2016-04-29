@@ -35,7 +35,7 @@ class CollectionViewControllerManager: NSObject, UICollectionViewDelegate, UICol
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let width : CGFloat = collectionView.frame.size.width / 2 - 10
-        let height : CGFloat = collectionView.frame.size.width / 2
+        let height : CGFloat = collectionView.frame.size.height / 2
         
         return CGSizeMake(width, height)
         
@@ -58,8 +58,18 @@ class CollectionViewControllerManager: NSObject, UICollectionViewDelegate, UICol
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell : UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(self.cellIdentifier, forIndexPath: indexPath)
-        let item : AnyObject = fetchController.fetchedResultsController.objectAtIndexPath(indexPath)
-        delegate?.configureCell(cell, item: item)
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+//            // do some task
+//
+//            dispatch_async(dispatch_get_main_queue(), {
+//                // update some UI
+//                
+//
+//                });
+//            });
+        let item : AnyObject = self.fetchController.fetchedResultsController.objectAtIndexPath(indexPath)
+
+        self.delegate?.configureCell(cell, item: item);
         return cell;
         
     }

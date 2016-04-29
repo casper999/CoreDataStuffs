@@ -2,7 +2,7 @@
 //  Model+CoreDataProperties.swift
 //  CDStuffs
 //
-//  Created by Kővári Armand on 2016. 04. 26..
+//  Created by Kővári Armand on 2016. 04. 29..
 //  Copyright © 2016. Canecom. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,9 +14,9 @@ import CoreData
 
 extension Model {
 
-    @NSManaged var name: String?
-    @NSManaged var rating: NSNumber?
     @NSManaged var image: NSObject?
     @NSManaged var imageURL: String?
+    @NSManaged var name: String?
+    @NSManaged var rating: NSNumber?
 
 }

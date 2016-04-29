@@ -37,8 +37,18 @@ class ModelCell: UITableViewCell {
         self.ratingText.text = "\(model?.rating?.intValue)"
         self.pictureView?.image = nil
         if (model?.image != nil) {
-            let image = UIImage(data: model?.image as! NSData)
-            self.pictureView?.image = image
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                // do some task
+                let image = UIImage(data: self.model?.image as! NSData)
+                //
+                dispatch_async(dispatch_get_main_queue(), {
+                    // update some UI
+                    self.pictureView?.image = image
+                });
+            });
+            
+            
+            
         } else {
             self.downloadImage()
         }
@@ -46,7 +56,7 @@ class ModelCell: UITableViewCell {
 //        print("model -> \(model)")
     }
     
-   
+    
     
     
     private func downloadImage() {

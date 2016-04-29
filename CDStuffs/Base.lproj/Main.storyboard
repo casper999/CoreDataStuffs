@@ -218,7 +218,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="topRated" id="wqB-iq-w3V"/>
                     <connections>
-                        <outlet property="tableView" destination="cgg-21-ycS" id="RdO-W4-hw4"/>
+                        <outlet property="tableView" destination="cgg-21-ycS" id="pIG-9d-Kar"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KM7-Av-30T" userLabel="First Responder" sceneMemberID="firstResponder"/>

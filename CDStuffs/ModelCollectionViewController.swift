@@ -11,15 +11,23 @@ import UIKit
 class ModelCollectionViewController: UIViewController {
 
     var collectionView: UICollectionView!
-    var adapter : ModelCollectionAdapter!
-
+    let adapter : ModelCollectionAdapter = ModelCollectionAdapter()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+//        print("hmmm collection view");
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            // do some task
+            //
+            self.adapter.collectionView = self.collectionView
 
-        // Do any additional setup after loading the view.
-        adapter = ModelCollectionAdapter()
-        adapter.collectionView = self.collectionView
-        adapter.initzialize()
+            dispatch_async(dispatch_get_main_queue(), {
+                // update some UI
+                self.adapter.initzialize()
+            });
+        });
     }
 
     override func didReceiveMemoryWarning() {
